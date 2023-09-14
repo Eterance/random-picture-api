@@ -1,0 +1,33 @@
+
+正确用例：
+ua
+( size >= 100000 and size <= 400000 )
+
+( landscape = 1 )
+
+( landscape = 1 and near_square = 1 )
+
+( landscape = 0 and near_square = 0 ) and ( small_res = 0 and size < 400000 )
+
+ landscape = 1 and near_square = 0
+
+landscape = 0 and width >= 1920
+
+landscape = 0 and ( width >= 1080 and height >= 1920 and ratio <= 0.75 )
+
+landscape = 0 and ( width >= 1080 and near_square = 0 ) and ( size >= 100000 and size <= 400000 )
+
+( ( landscape = 1 or width > 1080 ) and ratio >= 0.75 ) and  ( size >= 100000 and size <= 400000 )
+
+bjn = 0
+
+
+错误用例：
+
+bjn = 1
+
+( landscape = 1 and width > 60000 )
+
+( landscape = 1 and
+
+( landscape = 1 and  height - 2000 = 1920)
