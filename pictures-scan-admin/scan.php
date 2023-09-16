@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>WebP文件检索工具</title>
+    <title>图片文件检索工具</title>
 </head>
 <body>
-    <h1>WebP文件检索工具</h1>
+    <h1>图片文件检索工具</h1>
     
     <?php
     // 处理前端请求
@@ -14,11 +14,14 @@
 
         // 指定要检索的路径
         $scanPath = $config['scan_path'];
+        
+        // 检索 WebP、JPG 和 PNG 文件
+        $allowedExtensions = ['webp', 'jpg', 'jpeg', 'png'];
+        $webpFiles = [];
 
-        // 检索 WebP 文件
-        $webpFiles = glob($scanPath . '/*.webp');
-
-
+        foreach ($allowedExtensions as $extension) {
+            $webpFiles = array_merge($webpFiles, glob($scanPath . '/*.' . $extension));
+        }
 
         // 创建数据库连接
         $conn = new mysqli($config['host'], $config['user_name'], $config['pw'], $config['db_name']);
@@ -126,7 +129,7 @@
             }
         }
 
-        echo "检索完成。共计检索到 " . count($webpFiles) . " 个 WebP 文件。<br>";
+        echo "检索完成。共计检索到 " . count($webpFiles) . " 个图片文件。<br>";
         // 关闭数据库连接
         $conn->close();
 
@@ -135,7 +138,7 @@
     ?>
 
     <form method="post">
-        <input type="submit" name="search" value="开始检索 WebP 文件">
+        <input type="submit" name="search" value="开始检索图片文件">
     </form>
 </body>
 </html>
