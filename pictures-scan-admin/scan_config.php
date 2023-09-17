@@ -18,7 +18,7 @@ define('CLASS_AND_PATH', [
     ['imas', ['/acg/imas']],
     ['scenery', ['/wallerpapers/Reflectio', '/wallerpapers/Sunny-Sho', '/wallerpapers/china', '/wallerpapers/uwp-windows-jujiao']],
     ['nfs', ['/wallerpapers/nfs18', '/wallerpapers/nfs19']],
-    ['gamse', ['/wallerpapers/games']],
+    ['games', ['/wallerpapers/games']],
     ['astronomy', ['/wallerpapers/astronomy']]
 ]);
 
