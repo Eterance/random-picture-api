@@ -1,9 +1,8 @@
 <?php
-// 读取设置文件
-$config = parse_ini_file('/www/wwwroot/pictures.myapi.com/admin/rpic_config.ini');
-
+// 打开配置文件
+require_once('../admin/rpic_config.php');
 // 创建数据库连接
-$conn = new mysqli($config['host'], $config['user_name'], $config['pw'], $config['db_name']);
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 // 检查连接是否成功
 if ($conn->connect_error) {
@@ -91,10 +90,15 @@ if (isset($_GET['nobjn'])) {
     $conditions[] = "bjn = 0";
 }
 
+$class = DEFAULT_TABLE;
+if (isset($_GET['class'])) {
+    $class = $_GET['class'];
+}
+
 // 构建 SQL 查询语句
 $sql = "SELECT";
-$sql .= isset($_GET['count'])? " COUNT(*) AS count" : " path";
-$sql .= " FROM pics_data";
+$sql .= isset($_GET['count'])? " COUNT(*) AS count" : " url";
+$sql .= " FROM `$class`";
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" and ", $conditions);
 }
@@ -123,15 +127,15 @@ if (isset($_GET['count'])) {
     die($row['count']);
 }
 
-$randomImagePath = '';
+$randomImageUrl = '';
 if ($result->num_rows > 0) {
     $randomIndex = rand(0, $result->num_rows - 1);
     $result->data_seek($randomIndex);
     $row = $result->fetch_assoc();
-    $randomImagePath = $row['path'];
+    $randomImageUrl = $row['url'];
 } 
-if (!empty($randomImagePath)) {
-    header("Location: " . $randomImagePath, true, 302);
+if (!empty($randomImageUrl)) {
+    header("Location: " . $randomImageUrl, true, 302);
     exit;
 } else {
     header("HTTP/1.1 400 Bad Request");
