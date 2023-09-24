@@ -8,6 +8,8 @@
 
 更加具体的搭建过程参见博客：[玩转云服务（7）：自建随机图片 API](https://blog.baldcoder.top/articles/self-host-random-picture-api/)
 
+2323.09.24: 基于 Cloudflare 无服务器服务搭建的版本：https://github.com/Eterance/cloudflare-workers-random-picture-api
+
 ## 使用方法
 
 你需要至少两个网站：`pictures.aaa.com` 和 `api.aaa.com`。
