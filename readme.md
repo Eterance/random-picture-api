@@ -8,7 +8,7 @@
 
 更加具体的搭建过程参见博客：[玩转云服务（7）：自建随机图片 API](https://blog.baldcoder.top/articles/self-host-random-picture-api/)
 
-2323.09.24: 基于 Cloudflare 无服务器服务搭建的版本：https://github.com/Eterance/cloudflare-workers-random-picture-api
+2023.09.24: 基于 Cloudflare 无服务器 Workers/Functions + R2 + D1 搭建的版本：[cloudflare-workers-random-picture-api](https://github.com/Eterance/cloudflare-workers-random-picture-api)
 
 ## 使用方法
 
