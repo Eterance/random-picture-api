@@ -193,10 +193,10 @@
                             die("插入数据时出错: " . $conn->error . "<br>");
                         }                         
                     }
-                    catch(Exception $e)
+                    catch(\Throwable $e)
                     {
-                        echo 'Message: ' . $e->getMessage() . '\n';
-                        echo 'ERROR: ' . $picFile . '\n';
+                        echo '错误: ' . $e->getMessage() . ' ';
+                        echo '文件: ' . $picFile . "<br>";
                     }
                 }
                 $totalFiles += $fileNum;
