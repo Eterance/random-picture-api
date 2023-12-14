@@ -159,36 +159,44 @@
             
                 // 遍历文件
                 foreach ($pictureFiles as $picFile) {
-                    $picInfo = getimagesize($picFile);
-                    $fileName = basename($picFile);
-                    $url = URL_PREFIX. $prefix. "/". $fileName;
-                    $fileSize = filesize($picFile);
-                    $width = $picInfo[0];
-                    $height = $picInfo[1];
-                    $ratio = round($width / $height, 3);
-
-                    // 不使用 intval，false 导入sql的时候为空
-                    $landscape = intval($width > $height);
-                    $near_square = intval($ratio >= 0.9090909 && $ratio <= 1.1);
-                    $big_size = intval($fileSize > 600000);
-                    $small_size = intval($fileSize < 100000);
-                    $mid_size = intval(!$big_size && !$small_size);
-                    $big_res = intval(min($width, $height) > 1440);
-                    $small_res = intval(min($width, $height) < 640);
-                    $mid_res = intval(!$big_res && !$small_res);
-                    $bjn = intval(strpos($fileName, "bjn") !== false);
-
-
-                    // 使用 INSERT INTO 语句将数据插入到表中
-                    $insertSQL = "INSERT INTO `".$sub_table_name."` (name, url, size, width, height, ratio, landscape, near_square, big_size, small_size, mid_size, big_res, small_res, mid_res, bjn) VALUES ('$fileName', '$url', $fileSize, $width, $height, $ratio, $landscape, $near_square, $big_size, $small_size, $mid_size, $big_res, $small_res, $mid_res, $bjn)";
-                    //die($insertSQL);
-
-                    // 执行 SQL 语句插入数据
-                    if ($conn->query($insertSQL) === TRUE) {
-                        $fileNum += 1;
-                        $percent = round($fileNum / count($pictureFiles) * 100, 2);
-                    } else {
-                        die("插入数据时出错: " . $conn->error . "<br>");
+                    try
+                    {                       
+                        $picInfo = getimagesize($picFile);
+                        $fileName = basename($picFile);
+                        $url = URL_PREFIX. $prefix. "/". $fileName;
+                        $fileSize = filesize($picFile);
+                        $width = $picInfo[0];
+                        $height = $picInfo[1];
+                        $ratio = round($width / $height, 3);
+    
+                        // 不使用 intval，false 导入sql的时候为空
+                        $landscape = intval($width > $height);
+                        $near_square = intval($ratio >= 0.9090909 && $ratio <= 1.1);
+                        $big_size = intval($fileSize > 600000);
+                        $small_size = intval($fileSize < 100000);
+                        $mid_size = intval(!$big_size && !$small_size);
+                        $big_res = intval(min($width, $height) > 1440);
+                        $small_res = intval(min($width, $height) < 640);
+                        $mid_res = intval(!$big_res && !$small_res);
+                        $bjn = intval(strpos($fileName, "bjn") !== false);
+    
+    
+                        // 使用 INSERT INTO 语句将数据插入到表中
+                        $insertSQL = "INSERT INTO `".$sub_table_name."` (name, url, size, width, height, ratio, landscape, near_square, big_size, small_size, mid_size, big_res, small_res, mid_res, bjn) VALUES ('$fileName', '$url', $fileSize, $width, $height, $ratio, $landscape, $near_square, $big_size, $small_size, $mid_size, $big_res, $small_res, $mid_res, $bjn)";
+                        //die($insertSQL);
+    
+                        // 执行 SQL 语句插入数据
+                        if ($conn->query($insertSQL) === TRUE) {
+                            $fileNum += 1;
+                            $percent = round($fileNum / count($pictureFiles) * 100, 2);
+                        } else {
+                            die("插入数据时出错: " . $conn->error . "<br>");
+                        }                         
+                    }
+                    catch(Exception $e)
+                    {
+                        echo 'Message: ' . $e->getMessage() . '\n';
+                        echo 'ERROR: ' . $picFile . '\n';
                     }
                 }
                 $totalFiles += $fileNum;
